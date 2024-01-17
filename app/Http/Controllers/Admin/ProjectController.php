@@ -7,6 +7,8 @@ use App\Models\Project;
 
 use App\Models\Category;
 
+use App\Models\Technology;
+
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 
@@ -34,7 +36,8 @@ class ProjectController extends Controller
     {
         //
         $categories= Category::all();
-        return view('admin.projects.create', compact('categories'));
+        $technologies= Technology::all();
+        return view('admin.projects.create', compact('categories', 'technologies'));
     }
 
     /**
@@ -64,7 +67,9 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         //
-        return view('admin.projects.show', compact('project'));
+        $categories= Category::all();
+        $technologies= Technology::all();
+        return view('admin.projects.show', compact('project', 'categories', 'technologies'));
     }
 
     /**
@@ -74,7 +79,8 @@ class ProjectController extends Controller
     {
         //
         $categories= Category::all();
-        return view('admin.projects.edit', compact('project', 'categories'));
+        $technologies= Technology::all();
+        return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
     }
 
     /**
