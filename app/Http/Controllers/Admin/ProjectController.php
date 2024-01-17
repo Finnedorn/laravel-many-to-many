@@ -58,6 +58,19 @@ class ProjectController extends Controller
         $userId = Auth::id();
         $formData['user_id'] = $userId;
         $newProject = Project::create($formData);
+
+        // dopo che ho salvato il new project ho il project id di quel pacchetto dati
+        // che è legato alla tabella ponte (con technologies)
+        // mi avarrò dei metodi attach() e detach()
+
+        // se request ha elementi tecnologies dal form check technologies
+        if($request->has('technologies')){
+            // il new project richiamera la funzione technologies presente nel suo allaccio alla tabella ponte
+            // in project model
+            // e aggiungici gli elementi checked dal form
+            $newProject->technologies()->attach($request->technologies);
+        }
+
         return redirect()->route('admin.projects.show', $newProject->id);
     }
 
@@ -102,6 +115,20 @@ class ProjectController extends Controller
             $formData['preview'] = $preview;
         }
         $project->update($formData);
+
+        // se request ha elementi tecnologies dal form check technologies
+        if($request->has('technologies')){
+            // il new project richiamera la funzione technologies presente nel suo allaccio alla tabella ponte
+            // in project model
+            // e synca gli elementi in tabella con quelli presenti nell'array degli elementi da checkati
+            // cioè elimina quelli che non hanno il check
+            $project->technologies()->sync($request->technologies);
+        } else {
+            // se non ha elementi selezionati
+            // togli tutti gli elementi della tabella technologies associati a quell'id
+            $project->technologies()->detach();
+        }
+
         return redirect()->route('admin.projects.show', $project->id);
     }
 
@@ -111,6 +138,10 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+        // la funzione detach scollega automaticamente tutti gli elementi della tabella legati a quel campo
+        // è utile solo in funzione del delete
+        $project->technologies()->detach();
+
         if ($project->preview){
             Storage::delete($project->preview);
         }

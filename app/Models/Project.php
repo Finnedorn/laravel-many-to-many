@@ -9,6 +9,10 @@ class Project extends Model
 {
     use HasFactory;
 
+    // perche nei fillable non ho il campo tecnology ?
+    // perchè mentre per category o u colegamento uno a molti tramite la category id
+    // nel caso delle technologies ho un collegamento tramite project>id direttamente con la tabella ponte
+    // quindi non mi serve dichiararlo nei fillable
     protected $fillable = ['user_id', 'project_title', 'repo_name','repo_link','slug','preview','description', 'category_id'];
 
     // ...qua invece creerò una funzione al singolare
@@ -21,5 +25,9 @@ class Project extends Model
 
     public function category() {
         return $this->belongsTo(Category::class);
+    }
+
+    public function technologies() {
+        return $this->belongsToMany(Technology::class);
     }
 }

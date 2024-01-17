@@ -6,6 +6,7 @@
             <div class="row pt-5">
                 <div class="container">
                     <div>
+                        {{-- titolo --}}
                         <div class="d-flex justify-content-between  align-items-center w-75">
                             <h1 class="pb-3">
                                 {{ $project->project_title }}
@@ -17,16 +18,33 @@
                                 </button>
                             </a>
                         </div>
+                        {{-- nome repo --}}
                         <h4>
                             Nome Repository: {{$project->repo_name}}
                         </h4>
+                        {{-- categoria --}}
                         @if($project->category !== null)
                         <h6>
                             Categoria: {{$project->category->name}}
                         </h6>
                         @endif
+                        {{-- tecnologia --}}
+                        @if($project->technologies)
+                            <div class="mb-3">
+                                <h6>Tecnologie:</h6>
+                                @foreach ($project->technologies as $technology)
+                                    <a class="badge text-bg-primary" href="{{route('admin.technologies.show', $technology->id)}}">
+                                        {{$technology->name}}
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endif
+                        {{-- link alla repo --}}
                         <h6>
-                            Link alla Repository: {{$project->repo_link}}
+                            Link alla Repository:
+                            <a href="{{$project->repo_link}}">
+                            {{$project->repo_link}}
+                            </a>
                         </h6>
                         <p class="my-4">
                             {{$project->description}}
