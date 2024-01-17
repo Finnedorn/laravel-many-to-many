@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('projects', ProjectController::class);
     Route::resource('categories', CategoryController::class);
-    Route::resource('technologies', CategoryController::class);
+    Route::resource('technologies', TechnologyController::class);
 });
 
 

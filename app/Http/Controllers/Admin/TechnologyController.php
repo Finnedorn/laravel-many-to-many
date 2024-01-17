@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
@@ -21,7 +21,7 @@ class TechnologyController extends Controller
     public function index()
     {
         //
-        $technolgies = Technology::all();
+        $technologies = Technology::all();
         return view('admin.technologies.index', compact('technologies'));
     }
 

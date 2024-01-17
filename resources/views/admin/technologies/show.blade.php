@@ -11,8 +11,8 @@
                                 {{ $technology->name }}
                             </h1>
                         </div>
-                        {{-- <ul>
-                            @forelse ($category->projects as $project)
+                        <ul>
+                            @forelse ($technology->projects as $project)
                                 <li>
                                     {{$project->project_title}}
                                 </li>
@@ -21,7 +21,7 @@
                                     Non ci sono elementi per questa categoria
                                 </li>
                             @endforelse
-                        </ul> --}}
+                        </ul>
                         <div class="pt-4">
                             <a href="{{route('admin.technologies.index')}}">
                                 <i class="fa-solid fa-chevron-left text-primary" style="font-size: 2.5rem"></i>
