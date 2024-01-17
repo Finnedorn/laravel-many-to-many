@@ -68,6 +68,12 @@
                                 Categorie
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'admin.technologies.index' ? 'active' : '' }}"
+                                href="{{ route('admin.technologies.index') }}">
+                                Tecnologie
+                            </a>
+                        </li>
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
