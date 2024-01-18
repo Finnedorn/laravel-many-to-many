@@ -28,6 +28,8 @@ class Project extends Model
     }
 
     public function technologies() {
-        return $this->belongsToMany(Technology::class);
+        // la funzione withTimeStamps() mi permette di passare alle entità di timestamps nella tabella ponte i
+        // dati ogni qualvolta io interagisca con la tabella ponte per passare dati a technologies
+        return $this->belongsToMany(Technology::class)->withTimestamps();
     }
 }

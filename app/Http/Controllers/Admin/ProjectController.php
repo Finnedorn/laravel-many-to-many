@@ -25,7 +25,15 @@ class ProjectController extends Controller
     public function index()
     {
         //
-        $projects = Project::all();
+        // non voglio che un utente nuovo possa eliminarmi i dati che ho creato
+        // creo una variabile che contenda l'utente attuale
+        $currentUserId = Auth::id();
+        // il metodo paginate(numeroelementidamostrare) invece di $projects = Project::all()
+        // mi permette di gestire quanti elementi voglio in pagina
+        // ma per la paginazione serve anche altro, apriamo la index di project...
+
+        // pesco quindi i project dove l'user_id dell'utente è uguale all'utente che attualmente ha fatto logIn
+        $projects = Project::where('user_id', $currentUserId)->paginate(5);
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -80,9 +88,14 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         //
-        $categories= Category::all();
-        $technologies= Technology::all();
-        return view('admin.projects.show', compact('project', 'categories', 'technologies'));
+        // sei l'utente loggato che ha registrato quei progetti? bene accedi alla pagina
+        // altrimenti abort(403)
+        if(Auth::id() == $project->user_id){
+            $categories= Category::all();
+            $technologies= Technology::all();
+            return view('admin.projects.show', compact('project', 'categories', 'technologies'));
+        }
+        abort(403);
     }
 
     /**

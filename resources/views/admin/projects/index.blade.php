@@ -60,6 +60,13 @@
                     @endforelse
                     </tbody>
                 </table>
+                {{-- ...lavoriamo sulla paginazione --}}
+                {{-- dopo aver dato il comando di paginate alla query di project index --}}
+                {{-- dopo aver creto la cartella vendor pagination  --}}
+                {{-- posso linkarla attraverso la stessa dicitura che si usa per le route pages --}}
+                {{-- aprendo il file vendor.pagination.bootstrap-5 è possibile customizzare la grafica del file --}}
+                {{$projects->links('vendor.pagination.bootstrap-5')}}
+            </div>
         </div>
     </main>
 @endsection
