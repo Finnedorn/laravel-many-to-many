@@ -31,9 +31,13 @@ class ProjectController extends Controller
         // il metodo paginate(numeroelementidamostrare) invece di $projects = Project::all()
         // mi permette di gestire quanti elementi voglio in pagina
         // ma per la paginazione serve anche altro, apriamo la index di project...
+        if ($currentUserId == 1) {
+            $projects = Project::paginate(5);
+        }else {
+            // pesco quindi i project dove l'user_id dell'utente è uguale all'utente che attualmente ha fatto logIn
+            $projects = Project::where('user_id', $currentUserId)->paginate(5);
+        }
 
-        // pesco quindi i project dove l'user_id dell'utente è uguale all'utente che attualmente ha fatto logIn
-        $projects = Project::where('user_id', $currentUserId)->paginate(5);
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -90,7 +94,8 @@ class ProjectController extends Controller
         //
         // sei l'utente loggato che ha registrato quei progetti? bene accedi alla pagina
         // altrimenti abort(403)
-        if(Auth::id() == $project->user_id){
+        $currentUserId = Auth::id();
+        if($currentUserId == $project->user_id || $currentUserId == 1){
             $categories= Category::all();
             $technologies= Technology::all();
             return view('admin.projects.show', compact('project', 'categories', 'technologies'));
@@ -104,9 +109,13 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         //
-        $categories= Category::all();
-        $technologies= Technology::all();
-        return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
+        $currentUserId = Auth::id();
+        if($currentUserId == $project->user_id || $currentUserId == 1){
+            $categories= Category::all();
+            $technologies= Technology::all();
+            return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
+        }
+        abort(403);
     }
 
     /**
@@ -151,6 +160,10 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+        $currentUserId = Auth::id();
+        if($currentUserId != $project->user_id && $currentUserId != 1){
+            abort(403);
+        }
         // la funzione detach scollega automaticamente tutti gli elementi della tabella legati a quel campo
         // è utile solo in funzione del delete
         $project->technologies()->detach();

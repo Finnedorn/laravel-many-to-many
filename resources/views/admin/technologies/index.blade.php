@@ -26,8 +26,10 @@
                     <thead>
                       <tr>
                         <th scope="col">Nome</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        @if (Auth::id() == 1)
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        @endif
                       </tr>
                     </thead>
                     <tbody>
@@ -36,26 +38,29 @@
                         <td>
                             {{$technology->name}}
                         </td>
-                        <td>
-                            <a href="{{route('admin.technologies.edit', $technology->id)}}">
-                                <button class="btn btn-success rounded-3 border-0">
-                                    <i class="fa-solid fa-pen" style="font-size: 0.7rem"></i>
-                                </button>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{route('admin.technologies.show', $technology->id)}}">
-                                <button class="btn btn-primary rounded-3 border-0 me-2">
-                                    <i class="fa-regular fa-file-lines" style="font-size: 1rem"></i>
-                                </button>
-                            </a>
-                        </td>
+                        @if (Auth::id() == 1)
+                            <td>
+                                <a href="{{route('admin.technologies.edit', $technology->id)}}">
+                                    <button class="btn btn-success rounded-3 border-0">
+                                        <i class="fa-solid fa-pen" style="font-size: 0.7rem"></i>
+                                    </button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{route('admin.technologies.show', $technology->id)}}">
+                                    <button class="btn btn-primary rounded-3 border-0 me-2">
+                                        <i class="fa-regular fa-file-lines" style="font-size: 1rem"></i>
+                                    </button>
+                                </a>
+                            </td>
+                        @endif
                       </tr>
                       @empty
                       <div>Nessuna Tecnologia Disponibile</div>
                     @endforelse
                     </tbody>
                 </table>
+            </div>
         </div>
     </main>
 @endsection

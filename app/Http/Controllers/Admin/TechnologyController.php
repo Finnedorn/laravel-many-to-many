@@ -62,6 +62,10 @@ class TechnologyController extends Controller
     public function edit(Technology $technology)
     {
         //
+        $currentUserId = Auth::id();
+        if($currentUserId != 1){
+            abort(403);
+        }
         return view('admin.technologies.edit', compact('technology'));
 
     }
@@ -89,6 +93,10 @@ class TechnologyController extends Controller
     public function destroy(Technology $technology)
     {
         //
+        $currentUserId = Auth::id();
+        if($currentUserId != 1){
+            abort(403);
+        }
         $technology->delete();
         return to_route('admin.technologies.index')->with('message', "l'elemento $technology->name è stato eliminato con successo");
     }

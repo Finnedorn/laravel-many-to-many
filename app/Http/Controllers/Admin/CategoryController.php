@@ -20,6 +20,11 @@ class CategoryController extends Controller
     public function index()
     {
         //
+        // solo l'admin puo cambiare le categorie quindi:
+        $currentUserId = Auth::id();
+        if($currentUserId != 1){
+            abort(403);
+        }
         $categories = Category::all();
         return view('admin.categories.index', compact('categories'));
     }
@@ -83,6 +88,10 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        $currentUserId = Auth::id();
+        if($currentUserId != 1){
+            abort(403);
+        }
         $category->delete();
         return to_route('admin.categories.index')->with('message', "l'elemento $category->name è stato eliminato con successo");
     }
