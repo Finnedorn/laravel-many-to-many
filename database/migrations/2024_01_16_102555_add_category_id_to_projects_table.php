@@ -16,6 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id')->nullable()->after('user_id');
             $table->foreign('category_id')
                 ->references('id')
+                // la funzione nullOnDelete() mi permette una volta eliminato l'id
+                // di settare tutte le categorie in relazione con quell'id a null
+                // ovviamente voglio settarle a null in quanto non voglio che le categorie
+                // essendo in relazione molte ad uno con project
+                // mi vengano eliminate altrimenti eliminerei pure le categorie in relazione con altri id
                 ->on('categories')->nullOnDelete();
         });
     }

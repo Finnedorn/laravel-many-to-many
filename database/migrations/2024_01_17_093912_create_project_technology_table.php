@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('project_technology', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
+            // la funzione cascadeondelete() implica che una volta eliminato l'id utente, tutti gli elementi
+            // in realzione con questo vengano eliminati di conseguenza
+            // in questo caso voglio che una volta eliminato l'id del progetto, mi vengano pure eliminato
+            // il collegamento a ponte con tutte le altre tecnologie relative a quel progetto
             $table->foreign('project_id')->references('id')->on('projects')->cascadeOnDelete();
 
             $table->unsignedBigInteger('technology_id');

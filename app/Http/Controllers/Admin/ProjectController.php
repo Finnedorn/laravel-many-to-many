@@ -67,7 +67,10 @@ class ProjectController extends Controller
             $preview = Storage::put('previews', $formData['preview']);
             $formData['preview'] = $preview;
         }
+        // prendo l'id dell'utente che sta creando questo pacchetto dati
         $userId = Auth::id();
+        // e lo associo al dato in tabella user_id
+        // in questo modo posso risalire al creatore del contenuto tramite l'user id
         $formData['user_id'] = $userId;
         $newProject = Project::create($formData);
 
@@ -142,7 +145,7 @@ class ProjectController extends Controller
         if($request->has('technologies')){
             // il new project richiamera la funzione technologies presente nel suo allaccio alla tabella ponte
             // in project model
-            // e synca gli elementi in tabella con quelli presenti nell'array degli elementi da checkati
+            // e synca gli elementi in tabella con quelli presenti nell'array degli elementi checkati
             // cioè elimina quelli che non hanno il check
             $project->technologies()->sync($request->technologies);
         } else {
